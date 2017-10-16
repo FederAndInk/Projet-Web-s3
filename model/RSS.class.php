@@ -51,7 +51,7 @@ class RSS {
     $this->date = $nodeList->item(0)->textContent;
 
     $nouvelles=array();
-    
+
        // Récupère tous les items du flux RSS
       foreach ($doc->getElementsByTagName('item') as $node) {
 
@@ -60,7 +60,7 @@ class RSS {
 
         // Modifie cette nouvelle avec l'information téléchargée
         $nouvelle->update($node);
-        $nouvelles[]=$nouvelle;
+        $this->nouvelles[]=$nouvelle;
       }
 
 
