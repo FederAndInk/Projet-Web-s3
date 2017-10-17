@@ -1,9 +1,10 @@
 <?php
 require_once 'Nouvelle.class.php';
-
+require_once 'DAO.class.php';
 class RSS {
   private $titre; // Titre du flux
   private $url;   // Chemin URL pour télécharger un nouvel état du flux
+  private $id;    // id de du flux RSS
   private $date;  // Date du dernier téléchargement du flux
   private $nouvelles; // Liste des nouvelles du flux dans un tableau d'objets Nouvelle
 
@@ -13,6 +14,10 @@ class RSS {
 
   function titre() {
     return $this->titre;
+  }
+
+  function id() {
+    return $this->id;
   }
 
 
@@ -32,6 +37,7 @@ class RSS {
 
   // Récupère un flux à partir de son URL
   function update() {
+    echo 'test';
     // Cree un objet pour accueillir le contenu du RSS : un document XML
     $doc = new DOMDocument;
 
@@ -52,10 +58,12 @@ class RSS {
 
     $this->nouvelles=array();
 
-    $nomLocalImage=1;
+
+     // TODO : changer pour prendre toutes  les imgages
 
        // Récupère tous les items du flux RSS
       foreach ($doc->getElementsByTagName('item') as $node) {
+
 
         // Création d'un objet Nouvelle à conserver dans la liste $this->nouvelles
         $nouvelle = new Nouvelle();
@@ -63,12 +71,32 @@ class RSS {
         // Modifie cette nouvelle avec l'information téléchargée
         $nouvelle->update($node);
 
+        // On créé la nouvelle dans la BD
+
+        $db = new DAO();
+
+        $db->createNouvelle($nouvelle, $this->id);
+
+        // on récupère le titre de la nouvelle dans la DB
+        $titre = SQLite3::escapeString($nouvelle->titre());;
+
+        // On va chercher l'id de l'image dans la DB
+        $rqt = "SELECT id FROM nouvelle WHERE RSS_id = '$this->id' and url = '$this->url'";
+        var_dump($rqt);
+        $result = $db->db()->query($rqt)->fetch();
+
+        $nomLocalImage = ($this->id)."_".$result[0][0++];
+
 
         // Télécharge l'image
         $nouvelle->downloadImage($node,$nomLocalImage);
 
         // ajoute la nouvelle au tableau des nouvelles
         $this->nouvelles[]=$nouvelle;
+
+        // On change l'id de l'image
+
+
       }
 
 
@@ -76,8 +104,10 @@ class RSS {
   }
 
   // Contructeur
-  function __construct($url) {
+  function __construct($url, $id) {
     $this->url = $url;
+    $this->id = $id;
+
     $this->update();
   }
 

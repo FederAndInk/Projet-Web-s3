@@ -33,7 +33,9 @@ class Nouvelle {
         $this->titre = $item->getElementsByTagName('title')->item(0)->textContent;
         $this->date = $item->getElementsByTagName('pubDate')->item(0)->textContent;
         $this->url = $item->getElementsByTagName('link')->item(0)->textContent;
-        $this->urlImage = $item->getElementsByTagName('url')->item(0)->textContent;
+        $this->urlImage = $item->getElementsByTagName('enclosure')->item(0)->getAttribute('url')->textContent;
+        $this->description = $item->getElementsByTagName('description')->item(0)->textContent;
+        $this->urlImage = '';
     }
 
     function downloadImage(DOMElement $item, $imageId){

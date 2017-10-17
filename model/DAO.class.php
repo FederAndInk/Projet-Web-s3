@@ -13,6 +13,12 @@ class DAO {
           }
         }
 
+        // getter
+
+        function db() {
+          return $this->db;
+        }
+
         //////////////////////////////////////////////////////////
         // Methodes CRUD sur RSS
         //////////////////////////////////////////////////////////
@@ -46,8 +52,10 @@ class DAO {
           if (!$result){
             return NULL;
           } else {
-            var_dump($result);
-            return (new RSS($url));
+            $rqt = "SELECT id FROM RSS WHERE url = '$url'";
+            $result = $this->db->query($rqt)->fetchAll(PDO::FETCH_ASSOC);
+            $sq = new RSS($url,$result[0]['id']);
+            return (new RSS($url,$result[0]['id']));
           }
         }
 
@@ -73,13 +81,13 @@ class DAO {
         // Acces à une nouvelle à partir de son titre et l'ID du flux
         function readNouvellefromTitre($titre,$RSS_id) {
           //vérification de la présence du rss de l'url dans la base de données
-          $rqt = "SELECT * FROM nouvelle WHERE titre = '$titre'";
-          $result = $this->db->query($rqt)->fetchAll(PDO::FETCH_BOTH);
-          if (!$result){
+          $rqt = "SELECT * FROM nouvelle WHERE titre = '$titre' and RSS_id = '$RSS_id'";
+          $result = $this->db->query($rqt)->fetchColumn();
+          if ($result == 0){
             return NULL;
           } else {
-            var_dump($result);
-            return (new RSS($url));
+
+            return ($result[0]);
           }
         }
 
@@ -87,22 +95,23 @@ class DAO {
         // Crée une nouvelle dans la base à partir d'un objet nouvelle
         // et de l'id du flux auquelle elle appartient
         function createNouvelle(Nouvelle $n, $RSS_id) {
-          $rss = $this->readRSSfromURL($url);
-          if ($rss == NULL) {
+          $nouvelle = $this->readNouvellefromTitre($n->titre(),$RSS_id);
+          if ($nouvelle == NULL) {
             try {
-              $q = "INSERT INTO RSS (url) VALUES ('$url')";
-              $r = $this->db->exec($q);
-              if ($r == 0) {
-                die("createRSS error: no rss inserted\n");
+              $urlImageNouvelle = SQLite3::escapeString($n->urlImage());
+              $dateNouvelle = SQLite3::escapeString($n->date());
+              $titreNouvelle = SQLite3::escapeString($n->titre());
+              $descriptionNouvelle = SQLite3::escapeString($n->description());
+              $urlNouvelle = SQLite3::escapeString($n->url());
+              $rqt = "INSERT INTO nouvelle (date,titre,description,url,image,RSS_id) VALUES ('$dateNouvelle','$urlImageNouvelle','$titreNouvelle','$descriptionNouvelle','$urlNouvelle',$RSS_id)";
+              $result = $this->db->exec($rqt);
+              if ($result == 0) {
+                die("createNouvelle error: no nouvelle inserted\n");
               }
-              return $this->readRSSfromURL($url);
             } catch (PDOException $e) {
               die("PDO Error :".$e->getMessage());
             }
-          } else {
-            // Retourne l'objet existant
-            return $rss;
           }
         }
-      }
+        }
         ?>
