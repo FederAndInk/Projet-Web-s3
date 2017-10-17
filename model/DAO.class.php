@@ -28,7 +28,7 @@ class DAO {
         $rss = $this->readRSSfromURL ( $url );
         if ($rss == NULL) {
             try {
-                $q = "INSERT INTO RSS (url) VALUES ('$url')";
+                $q = "INSERT INTO RSS (url) VALUES ('$url')"; // TODO c'est quoi ces noms de variable >_>
                 $r = $this->db->exec ( $q );
                 if ($r == 0) {
                     die ( "createRSS error: no rss inserted\n" );
@@ -53,7 +53,7 @@ class DAO {
         } else {
             $rqt = "SELECT id FROM RSS WHERE url = '$url'";
             $result = $this->db->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
-            $sq = new RSS ( $url, $result [0] ['id'] );
+            // $sq = new RSS ( $url, $result [0] ['id'] ); TODO var not used !!
             return (new RSS ( $url, $result [0] ['id'] ));
         }
     }
@@ -95,6 +95,7 @@ class DAO {
     // et de l'id du flux auquelle elle appartient
     function createNouvelle(Nouvelle $n, $RSS_id) {
         $nouvelle = $this->readNouvellefromTitre ( $n->titre (), $RSS_id );
+        var_dump ( $n );
         if ($nouvelle == NULL) {
             try {
                 $urlImageNouvelle = SQLite3::escapeString ( $n->urlImage () );
@@ -102,7 +103,7 @@ class DAO {
                 $titreNouvelle = SQLite3::escapeString ( $n->titre () );
                 $descriptionNouvelle = SQLite3::escapeString ( $n->description () );
                 $urlNouvelle = SQLite3::escapeString ( $n->url () );
-                $rqt = "INSERT INTO nouvelle (date,titre,description,url,image,RSS_id) VALUES ('$dateNouvelle','$urlImageNouvelle','$titreNouvelle','$descriptionNouvelle','$urlNouvelle',$RSS_id)";
+                $rqt = "INSERT INTO nouvelle (date,titre,description,url,image,RSS_id) VALUES ('$dateNouvelle','$titreNouvelle','$descriptionNouvelle','$urlNouvelle','$urlImageNouvelle',$RSS_id)";
                 $result = $this->db->exec ( $rqt );
                 if ($result == 0) {
                     die ( "createNouvelle error: no nouvelle inserted\n" );

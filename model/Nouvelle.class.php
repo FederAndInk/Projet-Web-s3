@@ -20,7 +20,7 @@ class Nouvelle {
         return $this->url;
     }
     function urlImage() {
-        return $this->urlImages;
+        return $this->urlImage;
     }
 
     // Charge les attributs de la nouvelle avec les informations du noeud XML
@@ -32,7 +32,7 @@ class Nouvelle {
                 'url' )->textContent;
         $this->description = $item->getElementsByTagName ( 'description' )->item (
                 0 )->textContent;
-        $this->urlImage = '';
+        // $this->urlImage = ''; FIXME : pourquoi faire ca ? ^^
     }
     function downloadImage(DOMElement $item, $imageId) {
         // On suppose que $node est un objet sur le noeud 'enclosure' d'un flux RSS
