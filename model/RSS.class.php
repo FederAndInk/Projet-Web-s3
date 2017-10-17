@@ -50,7 +50,9 @@ class RSS {
     // Met à jour le titre dans l'objet
     $this->date = $nodeList->item(0)->textContent;
 
-    $nouvelles=array();
+    $this->nouvelles=array();
+
+    $nomLocalImage=1;
 
        // Récupère tous les items du flux RSS
       foreach ($doc->getElementsByTagName('item') as $node) {
@@ -60,6 +62,12 @@ class RSS {
 
         // Modifie cette nouvelle avec l'information téléchargée
         $nouvelle->update($node);
+
+
+        // Télécharge l'image
+        $nouvelle->downloadImage($node,$nomLocalImage);
+
+        // ajoute la nouvelle au tableau des nouvelles
         $this->nouvelles[]=$nouvelle;
       }
 
