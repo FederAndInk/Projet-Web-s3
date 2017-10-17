@@ -2,115 +2,97 @@
 require_once 'Nouvelle.class.php';
 require_once 'DAO.class.php';
 class RSS {
-  private $titre; // Titre du flux
-  private $url;   // Chemin URL pour télécharger un nouvel état du flux
-  private $id;    // id de du flux RSS
-  private $date;  // Date du dernier téléchargement du flux
-  private $nouvelles; // Liste des nouvelles du flux dans un tableau d'objets Nouvelle
+    private $titre; // Titre du flux
+    private $url; // Chemin URL pour télécharger un nouvel état du flux
+    private $id; // id de du flux RSS
+    private $date; // Date du dernier téléchargement du flux
+    private $nouvelles; // Liste des nouvelles du flux dans un tableau d'objets Nouvelle
 
+    // Fonctions getter
+    function titre() {
+        return $this->titre;
+    }
+    function id() {
+        return $this->id;
+    }
+    function url() {
+        return $this->url;
+    }
+    function date() {
+        return $this->date;
+    }
+    function nouvelles() {
+        return $this->nouvelles;
+    }
 
+    // Récupère un flux à partir de son URL
+    function update() {
+        echo 'test';
+        // Cree un objet pour accueillir le contenu du RSS : un document XML
+        $doc = new DOMDocument ();
 
-  // Fonctions getter
+        // Telecharge le fichier XML dans $rss
+        $doc->load ( $this->url );
 
-  function titre() {
-    return $this->titre;
-  }
+        // Recupère la liste (DOMNodeList) de tous les elements de l'arbre 'title'
+        $nodeList = $doc->getElementsByTagName ( 'title' );
 
-  function id() {
-    return $this->id;
-  }
+        // Met à jour le titre dans l'objet
+        $this->titre = $nodeList->item ( 0 )->textContent;
 
+        // Recupère la liste (DOMNodeList) de tous les elements de l'arbre 'date'
+        $nodeList = $doc->getElementsByTagName ( 'pubDate' );
 
-  function url() {
-    return $this->url;
-  }
+        // Met à jour le titre dans l'objet
+        $this->date = $nodeList->item ( 0 )->textContent;
 
+        $this->nouvelles = array ();
 
-  function date() {
-    return $this->date;
-  }
+        // TODO : changer pour prendre toutes les imgages
 
+        // Récupère tous les items du flux RSS
+        foreach ( $doc->getElementsByTagName ( 'item' ) as $node ) {
 
-  function nouvelles() {
-    return $this->nouvelles;
-  }
+            // Création d'un objet Nouvelle à conserver dans la liste $this->nouvelles
+            $nouvelle = new Nouvelle ();
 
-  // Récupère un flux à partir de son URL
-  function update() {
-    echo 'test';
-    // Cree un objet pour accueillir le contenu du RSS : un document XML
-    $doc = new DOMDocument;
+            // Modifie cette nouvelle avec l'information téléchargée
+            $nouvelle->update ( $node );
 
-    //Telecharge le fichier XML dans $rss
-    $doc->load($this->url);
+            // On créé la nouvelle dans la BD
 
-    // Recupère la liste (DOMNodeList) de tous les elements de l'arbre 'title'
-    $nodeList = $doc->getElementsByTagName('title');
+            $db = new DAO ();
 
-    // Met à jour le titre dans l'objet
-    $this->titre = $nodeList->item(0)->textContent;
+            $db->createNouvelle ( $nouvelle, $this->id );
 
-    // Recupère la liste (DOMNodeList) de tous les elements de l'arbre 'date'
-    $nodeList = $doc->getElementsByTagName('pubDate');
+            // on récupère le titre de la nouvelle dans la DB
+            $titre = SQLite3::escapeString ( $nouvelle->titre () );
+            ;
 
-    // Met à jour le titre dans l'objet
-    $this->date = $nodeList->item(0)->textContent;
+            // On va chercher l'id de l'image dans la DB
+            $rqt = "SELECT id FROM nouvelle WHERE RSS_id = '$this->id' and url = '$this->url'";
+            var_dump ( $rqt );
+            $result = $db->db ()->query ( $rqt )->fetch ();
 
-    $this->nouvelles=array();
+        $nomLocalImage = ($this->id)."_".$result[0][0++]; // FIXME : serieux 0++ ? xD
 
+            // Télécharge l'image
+            $nouvelle->downloadImage ( $node, $nomLocalImage );
 
-     // TODO : changer pour prendre toutes  les imgages
+            // ajoute la nouvelle au tableau des nouvelles
+            $this->nouvelles [] = $nouvelle;
 
-       // Récupère tous les items du flux RSS
-      foreach ($doc->getElementsByTagName('item') as $node) {
+            // On change l'id de l'image
+        }
+    }
 
+    // Contructeur
+    function __construct($url, $id) {
+        $this->url = $url;
+        $this->id = $id;
 
-        // Création d'un objet Nouvelle à conserver dans la liste $this->nouvelles
-        $nouvelle = new Nouvelle();
-
-        // Modifie cette nouvelle avec l'information téléchargée
-        $nouvelle->update($node);
-
-        // On créé la nouvelle dans la BD
-
-        $db = new DAO();
-
-        $db->createNouvelle($nouvelle, $this->id);
-
-        // on récupère le titre de la nouvelle dans la DB
-        $titre = SQLite3::escapeString($nouvelle->titre());;
-
-        // On va chercher l'id de l'image dans la DB
-        $rqt = "SELECT id FROM nouvelle WHERE RSS_id = '$this->id' and url = '$this->url'";
-        var_dump($rqt);
-        $result = $db->db()->query($rqt)->fetch();
-
-        $nomLocalImage = ($this->id)."_".$result[0][0++];
-
-
-        // Télécharge l'image
-        $nouvelle->downloadImage($node,$nomLocalImage);
-
-        // ajoute la nouvelle au tableau des nouvelles
-        $this->nouvelles[]=$nouvelle;
-
-        // On change l'id de l'image
-
-
-      }
-
-
-
-  }
-
-  // Contructeur
-  function __construct($url, $id) {
-    $this->url = $url;
-    $this->id = $id;
-
-    $this->update();
-  }
-
+        $this->update ();
+    }
 }
 
-  ?>
+?>
