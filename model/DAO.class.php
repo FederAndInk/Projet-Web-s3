@@ -5,7 +5,7 @@ class DAO {
 
     // Ouverture de la base de donnée
     function __construct() {
-        $dsn = 'sqlite:data/rss.db'; // Data source name
+        $dsn = 'sqlite:../model/data/rss.db'; // Data source name
         try {
             $this->db = new PDO ( $dsn );
         } catch ( PDOException $e ) {
@@ -28,9 +28,15 @@ class DAO {
         $rss = $this->readRSSfromURL ( $url );
         if ($rss == NULL) {
             try {
-                $q = "INSERT INTO RSS (url) VALUES ('$url')"; // TODO c'est quoi ces noms de variable >_>
+                $doc = new DOMDocument ();
+                $doc->load ( $url );
+                $titre = $doc->getElementsByTagName("title")->item ( 0 )->textContent;
+                $date = $doc->getElementsByTagName("pubDate")->item ( 0 )->textContent;
+                $titre = SQLite3::escapeString ($titre);
+                $date = SQLite3::escapeString ( $date );
+                $q = "INSERT INTO RSS (titre,url,date) VALUES ('$titre','$url','".$date."')";
                 $r = $this->db->exec ( $q );
-                if ($r == 0) {
+                if (!$r) {
                     die ( "createRSS error: no rss inserted\n" );
                 }
                 return $this->readRSSfromURL ( $url );
@@ -53,7 +59,6 @@ class DAO {
         } else {
             $rqt = "SELECT id FROM RSS WHERE url = '$url'";
             $result = $this->db->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
-            // $sq = new RSS ( $url, $result [0] ['id'] ); TODO var not used !!
             return (new RSS ( $url, $result [0] ['id'] ));
         }
     }
@@ -95,7 +100,6 @@ class DAO {
     // et de l'id du flux auquelle elle appartient
     function createNouvelle(Nouvelle $n, $RSS_id) {
         $nouvelle = $this->readNouvellefromTitre ( $n->titre (), $RSS_id );
-        var_dump ( $n );
         if ($nouvelle == NULL) {
             try {
                 $urlImageNouvelle = SQLite3::escapeString ( $n->urlImage () );

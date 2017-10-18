@@ -29,11 +29,11 @@ class Nouvelle {
         $this->date = $item->getElementsByTagName ( 'pubDate' )->item ( 0 )->textContent;
         $this->url = $item->getElementsByTagName ( 'link' )->item ( 0 )->textContent;
         $this->urlImage = $item->getElementsByTagName ( 'enclosure' )->item ( 0 )->getAttribute (
-                'url' )->textContent;
+                'url' );
         $this->description = $item->getElementsByTagName ( 'description' )->item (
                 0 )->textContent;
-        // $this->urlImage = ''; FIXME : pourquoi faire ca ? ^^
     }
+
     function downloadImage(DOMElement $item, $imageId) {
         // On suppose que $node est un objet sur le noeud 'enclosure' d'un flux RSS
         // On tente d'accéder à l'attribut 'url'

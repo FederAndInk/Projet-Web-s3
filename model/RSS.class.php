@@ -27,7 +27,6 @@ class RSS {
 
     // Récupère un flux à partir de son URL
     function update() {
-        echo 'test';
         // Cree un objet pour accueillir le contenu du RSS : un document XML
         $doc = new DOMDocument ();
 
@@ -48,7 +47,8 @@ class RSS {
 
         $this->nouvelles = array ();
 
-        // TODO : changer pour prendre toutes les imgages
+        // On créé la nouvelle dans la BD
+        $db = new DAO ();
 
         // Récupère tous les items du flux RSS
         foreach ( $doc->getElementsByTagName ( 'item' ) as $node ) {
@@ -59,9 +59,6 @@ class RSS {
             // Modifie cette nouvelle avec l'information téléchargée
             $nouvelle->update ( $node );
 
-            // On créé la nouvelle dans la BD
-
-            $db = new DAO (); // FIXME : dans le foreach ???? t'es sur, c'est juste pour l'acces à la BD non ?
 
             $db->createNouvelle ( $nouvelle, $this->id );
 
@@ -70,14 +67,11 @@ class RSS {
             ;
 
             // On va chercher l'id de l'image dans la DB
-            $rqt = "SELECT id FROM nouvelle WHERE RSS_id = '$this->id' and url = '$this->url'"; // FIXME : url c'est l'url pour la nouvelle donc pas l'url du RSS !!
-                                                                                                // FIXME ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
-                                                                                                // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Url de RSS ≠ url de la nouvelle
+            $rqt = "SELECT id FROM nouvelle WHERE RSS_id = '$this->id' and url = '".$node->getElementsByTagName( 'link' )->item ( 0 )->textContent."'";
 
-            var_dump ( $rqt );
             $result = $db->db ()->query ( $rqt )->fetchall ();
-            var_dump ( $result );
-            // $nomLocalImage = ($this->id)."_".$result[0][0++]; // FIXME : serieux 0++ ? xD
+
+            $nomLocalImage = ($this->id)."_".$result[0]['id'];
 
             // Télécharge l'image
             $nouvelle->downloadImage ( $node, $nomLocalImage );
