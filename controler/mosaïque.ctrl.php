@@ -8,5 +8,7 @@
   }
 }
   $images = array_values($images); // on reinitialise les clefs de la liste
-  var_dump($images);
+  $data['images'] = $images;
+
+  include('../view/mosaique.view.php');
 ?>

@@ -67,7 +67,7 @@ class RSS {
             ;
 
             // On va chercher l'id de l'image dans la DB
-            $rqt = "SELECT id FROM nouvelle WHERE RSS_id = '$this->id' and url = '".$node->getElementsByTagName( 'link' )->item ( 0 )->textContent."'";
+            $rqt = "SELECT id,RSS_id FROM nouvelle WHERE RSS_id = '$this->id' and url = '".$node->getElementsByTagName( 'link' )->item ( 0 )->textContent."'";
 
             $result = $db->db ()->query ( $rqt )->fetchall ();
 

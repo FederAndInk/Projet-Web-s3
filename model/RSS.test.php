@@ -19,6 +19,18 @@ if ($rss == NULL) {
     echo "On l'ajoute ... \n";
     $rss = $dao->createRSS ( $url );
 }
+
+$url = 'https://www.nasa.gov/rss/dyn/breaking_news.rss';
+
+$rss = $dao->readRSSfromURL ( $url );
+
+if ($rss == NULL) {
+
+    echo $url . " n'est pas connu\n";
+    echo "On l'ajoute ... \n";
+    $rss = $dao->createRSS ( $url );
+}
+
 /*
  * // Une instance de RSS
  * $rss = new RSS('http://www.lemonde.fr/m-actu/rss_full.xml',);
