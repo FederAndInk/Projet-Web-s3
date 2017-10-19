@@ -86,6 +86,8 @@ class DAO {
     // Acces à une nouvelle à partir de son titre et l'ID du flux
     function readNouvellefromTitre($titre, $RSS_id) {
         // vérification de la présence du rss de l'url dans la base de données
+        $titre = SQLite3::escapeString ($titre); //Eviter les erreurs avec les caractères spéciaux dans la requête sql
+        $RSS_id = SQLite3::escapeString ($RSS_id);
         $rqt = "SELECT * FROM nouvelle WHERE titre = '$titre' and RSS_id = '$RSS_id'";
         $result = $this->db->query ( $rqt )->fetchColumn ();
         if ($result == 0) {

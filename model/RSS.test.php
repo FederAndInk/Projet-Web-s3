@@ -31,6 +31,29 @@ if ($rss == NULL) {
     $rss = $dao->createRSS ( $url );
 }
 
+$url = 'http://www.france24.com/fr/actualites/rss';
+
+$rss = $dao->readRSSfromURL ( $url );
+
+if ($rss == NULL) {
+
+    echo $url . " n'est pas connu\n";
+    echo "On l'ajoute ... \n";
+    $rss = $dao->createRSS ( $url );
+}
+
+$url = 'http://www.france24.com/fr/tag/sante/rss';
+
+$rss = $dao->readRSSfromURL ( $url );
+
+if ($rss == NULL) {
+
+    echo $url . " n'est pas connu\n";
+    echo "On l'ajoute ... \n";
+    $rss = $dao->createRSS ( $url );
+}
+
+
 /*
  * // Une instance de RSS
  * $rss = new RSS('http://www.lemonde.fr/m-actu/rss_full.xml',);
