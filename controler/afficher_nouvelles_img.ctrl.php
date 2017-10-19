@@ -10,5 +10,5 @@
   $images = array_values($images); // on reinitialise les clefs de la liste
   $data['images'] = $images;
 
-  include('../view/mosaique.view.php');
+  include('../view/afficher_nouvelles_img.view.php');
 ?>
