@@ -17,27 +17,11 @@ foreach($result as $key => $value){
 // On va chercher l'image de la nouvelle dans le répertoire
 $imagesNouvelles = scandir('../model/images');
 foreach ($imagesNouvelles as $key => $img) {
-  if ($img == $RSS_idNouvelle.'_'.$idNouvelle.'.jpg') {
+  if ($img == $idNouvelle.'.jpg') {
     $imageNouvelle = $img;
   }
 }
 
 include('../view/afficher_nouvelle.view.php');
-
-?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ?>

@@ -6,10 +6,10 @@
   </head>
   <h1>Mosaïque des nouvelles</h1>
   <body>
-    <?php foreach($data['images'] as $id => $img){   ?>
+    <?php foreach($idImages as $id => $img){   ?>
 
-        <a href="">
-        <img src="<?php echo 'http://www-etu-info.iut2.upmf-grenoble.fr/~deslotl/ProgWeb/Projet-Web-s3/model/images/'.$img?>" height="200" width="200" />
+        <a href="<?php echo 'http://www-etu-info.iut2.upmf-grenoble.fr/~deslotl/ProgWeb/Projet-Web-s3/controler/afficher_nouvelle.ctrl.php?id_Nouvelle='.$img?>">
+        <img src="<?php echo 'http://www-etu-info.iut2.upmf-grenoble.fr/~deslotl/ProgWeb/Projet-Web-s3/model/images/'.$img.'.jpg'?>" height="200" width="200" />
         </a>
 <?php } ?>
   </body>

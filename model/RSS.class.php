@@ -71,7 +71,7 @@ class RSS {
 
             $result = $db->db ()->query ( $rqt )->fetchall ();
 
-            $nomLocalImage = ($this->id)."_".$result[0]['id'];
+            $nomLocalImage = $result[0]['id'];
 
             // Télécharge l'image
             $nouvelle->downloadImage ( $node, $nomLocalImage );
