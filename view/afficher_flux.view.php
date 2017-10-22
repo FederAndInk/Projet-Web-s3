@@ -16,9 +16,12 @@
 
 </div>
   <div class="Recherche">
-    <form action="/~deslotl/ProgWeb/Projet-Web-s3/controler/afficher_flux.ctrl.php" id="mot_clef" method="get">
+    <form action="/~deslotl/ProgWeb/Projet-Web-s3/controler/afficher_nouvelles.ctrl.php" id="mot_clef" method="get">
     <input id="search" name="mot_clef" type="text" placeholder="Rechercher un flux RSS par mot clé" />
     <input id="search-btn" type="submit" value="Rechercher" />
+    <?php if(isset($_GET['search'])){ // Si la recherche de mot clé n'a pas aboutit : message d'erreur
+      echo "<br/>Le mot clé n'existe pas";
+    } ?>
     </form>
   </div>
   <h1>Liste des flux enregistrés</h1>
