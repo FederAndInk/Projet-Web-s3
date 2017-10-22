@@ -10,15 +10,22 @@ require_once('../model/DAO.class.php');
   }
 }
 
-  sort($images);
-  $data['images'] = $images;
+  //On va chercher dans la base de donnée le nombre d'image du rssId
+  $db = new DAO();
+  $rqt = "SELECT id FROM nouvelle WHERE RSS_id = '$RSS_id'";
+  $result = $db->db()->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
 
- // On récupère les id nouvelles par rapport aux images
+
+  // On va chercher dans le dossier image le nombre d'images correspondant et On récupère les id  des nouvelles par rapport aux images
   foreach ($images as $key => $img) {
     $img = preg_replace("/.jpg/",'',$img); // on replace le .jpg par une chaine vide
-    $idImages[] = $img;
+    foreach ($result as $key => $value) {
+      if($img == $value['id']){
+        $idImages[] = $img;
+      }
+    }
 }
 
-asort($idImages);
+  asort($idImages);
   include('../view/afficher_nouvelles_img.view.php');
 ?>

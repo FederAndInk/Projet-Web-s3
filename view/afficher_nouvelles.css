@@ -1,0 +1,21 @@
+ul#Menu li {
+  display: inline;
+  padding: 0 1em;
+  line-height: 50px;
+  border-right: 1px solid blue;
+  height: auto;
+}
+
+ul{
+  background-color: rgb(128,128,128);
+  height: 50px;
+  text-align: center;
+}
+
+li a{
+  text-decoration: none;
+}
+
+h1 {
+  font-family: Comic Sans MS;
+}
