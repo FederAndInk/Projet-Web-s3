@@ -4,16 +4,19 @@
 
 
 require_once('../model/DAO.class.php');
+require_once('../model/RSS.class.php');
 
 // Ouverture de la base de donnée
   $dao = new DAO();
   $db = $dao->db(); // on récupère la base donnée
 
   // Mise à jour d'un flux
-    // if(isset($_GET['maj_Id'])){ // TODO: A finir;
-    //   $rqt = "DELETE FROM nouvelle where titre LIKE '%$mot_clef%'"; // on recherche tous les RSS contenant le mot clé dans le titre
-    //   $result = $db->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
-    // }
+    if(isset($_GET['maj_Id'])){ // TODO: A finir;
+      $maj_Id = $_GET['maj_Id'];
+      $rqt = "SELECT url FROM RSS WHERE id='$maj_Id'";
+      $result =$db->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
+      $rss = new RSS($result[0]['url'],$maj_Id);
+    }
 
 
 //on met les titres des RSS dans une liste

@@ -40,10 +40,17 @@ class Nouvelle {
         // L'attribut url a été trouvé : on récupère sa valeur, c'est l'URL de l'image
         $url = $item->getElementsByTagName ( 'enclosure' )->item ( 0 )->getAttribute (
                 'url' );
+                $test = scandir('../model/images/');
+                $bool = true;
+                foreach ($test as $key => $value) {
+                  if ($value == $imageId . '.jpg') {
+                    $bool = false;
+                  }
+                }
 
-        if ($url != NULL) {
+        if ($url != NULL && $bool) {
             // On construit un nom local pour cette image : on suppose que $nomLocalImage contient un identifiant unique
-            $this->image = 'images/' . $imageId . '.jpg';
+            $this->image = '../model/images/' . $imageId . '.jpg';
             // On télécharge l'image à l'aide de son URL, et on la copie localement.
             file_put_contents ( $this->image, file_get_contents ( $url ) );
         }

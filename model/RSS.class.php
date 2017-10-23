@@ -29,10 +29,8 @@ class RSS {
     function update() {
         // Cree un objet pour accueillir le contenu du RSS : un document XML
         $doc = new DOMDocument ();
-
         // Telecharge le fichier XML dans $rss
         $doc->load ( $this->url );
-
         // Recupère la liste (DOMNodeList) de tous les elements de l'arbre 'title'
         $nodeList = $doc->getElementsByTagName ( 'title' );
 
@@ -87,8 +85,7 @@ class RSS {
     function __construct($url, $id) {
         $this->url = $url;
         $this->id = $id;
-
-        $this->update ();
+        $this->update();
     }
 }
 

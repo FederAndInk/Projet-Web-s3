@@ -34,7 +34,8 @@
         <a href="<?php echo "http://www-etu-info.iut2.upmf-grenoble.fr/~deslotl/ProgWeb/Projet-Web-s3/controler/afficher_nouvelles.ctrl.php?RSS_id=".$data['id'][$key] ?> ">
         <?php echo $value ?>
       </a><a href="<?php echo "http://www-etu-info.iut2.upmf-grenoble.fr/~deslotl/ProgWeb/Projet-Web-s3/controler/afficher_nouvelles_img.ctrl.php?RSS_id=".$data['id'][$key]  ?>"><img src="../model/mosaic.png" alt="" height="15" width="15"></a><br>
-      <button type="button" name="Maj_flux"><a href="<?php echo "../controler/afficher_flux.ctrl.php?maj_Id=".$data['id'][$key] ?>">Mise à jour du flux</a></button>
+      <button type="button" name="maj_Id"><a href="<?php echo "../controler/afficher_flux.ctrl.php?maj_Id=".$data['id'][$key] ?>">Mise à jour du flux</a></button>
+      <?php echo "../controler/afficher_flux.ctrl.php?maj_Id=".$data['id'][$key] ?>
       </p>
         <br/>
 

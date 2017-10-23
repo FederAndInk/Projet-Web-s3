@@ -9,6 +9,7 @@ require_once('../model/DAO.class.php');
     unset($images[$key]);
   }
 }
+var_dump($images);
 
   //On va chercher dans la base de donnée le nombre d'image du rssId
   $db = new DAO();
@@ -27,5 +28,7 @@ require_once('../model/DAO.class.php');
 }
 
   asort($idImages);
+  array_reverse($idImages);
+  var_dump($idImages);
   include('../view/afficher_nouvelles_img.view.php');
 ?>
