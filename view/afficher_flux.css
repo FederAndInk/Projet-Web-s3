@@ -5,6 +5,10 @@ ul#Menu li {
   height: auto;
 }
 
+li#connexion {
+  text-align: right;
+}
+
 ul{
   background-color: rgb(128,128,128);
   height: 50px;

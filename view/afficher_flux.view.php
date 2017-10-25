@@ -9,14 +9,14 @@
 
   <ul id="Menu">
     <li><a href="http://www-etu-info.iut2.upmf-grenoble.fr/~deslotl/ProgWeb/Projet-Web-s3/controler/afficher_flux.ctrl.php">Flux</a></li>
-    <li><a href="#">test</a></li>
-
+    <li class = "deconnexion"><a href="../">Déconnexion</a></li>
+    <?php ?>
   </ul>
 
 
 </div>
 <div class="Recherche">
-  <form action="/~deslotl/ProgWeb/Projet-Web-s3/controler/afficher_flux.ctrl.php" id="mot_clef" method="get">
+  <form action="afficher_flux.ctrl.php" id="mot_clef" method="get">
     <input id="search" name="mot_clef" type="text" placeholder="Rechercher un flux RSS par mot clé" />
     <input id="search-btn" type="submit" value="Rechercher" />
     <?php echo "<br>".$message_erreur_search; ?>
@@ -41,7 +41,7 @@
             <?php echo $value ?>
           </a><a href="<?php echo "http://www-etu-info.iut2.upmf-grenoble.fr/~deslotl/ProgWeb/Projet-Web-s3/controler/afficher_nouvelles_img.ctrl.php?RSS_id=".$data['id'][$key]  ?>"><img src="../model/mosaic.png" alt="" height="15" width="15"></a><br>
           Date de la dernière mise à jour : <?php echo $data['date'][$key] ?>
-          <form method="post" action="<?php echo "http://www-etu-info.iut2.upmf-grenoble.fr/~deslotl/ProgWeb/Projet-Web-s3/controler/afficher_flux.ctrl.php?maj_Id=".$data['id'][$key] ?>">
+          <form method="post" action="<?php echo "http://www-etu-info.iut2.upmf-grenoble.fr/~deslotl/ProgWeb/Projet-Web-s3/controler/afficher_flux.ctrl.php?maj_url=".$data['urls'][$key] ?>">
             <input type="submit" value="Mise à jour">
           </form>
           <form method="post" action="<?php echo "http://www-etu-info.iut2.upmf-grenoble.fr/~deslotl/ProgWeb/Projet-Web-s3/controler/afficher_flux.ctrl.php?vid_Id=".$data['id'][$key] ?>">

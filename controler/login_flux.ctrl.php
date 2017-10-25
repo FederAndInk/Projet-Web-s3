@@ -12,9 +12,7 @@
       elseif(!$dao->createUser($login,$mdp)){
         $error = "createLoginUsed";
       }
-      if(isset($error)){
-        header("Location:../view/login_flux.view.php?error=$error");
-      }
+
 
   } elseif(isset($_POST['connection'])){
     if(!$dao->verifUser($login,$mdp)){
@@ -24,7 +22,12 @@
 
   session_start();
   $_SESSION['login'] = $login;
-  include('../view/afficher_flux.view.php')
+  if(isset($error)){
+    header("Location:../view/login_flux.view.php?error=$error");
+  } else {
+    include('afficher_flux.ctrl.php');
+  }
+
 
 
 

@@ -12,12 +12,16 @@ if (isset($_GET['RSS_id'])){
 
 
 } elseif(isset($_GET['mot_clef'])){
-  $mot_clef = $_GET['mot_clef'];
+  $result = $db->getInfoNouvelleSFromMotClef($_GET['mot_clef']);
+  $motClef = $_GET['mot_clef'];
+  if ( $result == null ){
+    header("Location:afficher_flux.ctrl.php?motClefErreur=erreur");
+  }
   $message = ' contenant le mot clé choisi'; // Message de succès de la recherche
-
-  $mot_clef = SQLite3::escapeString ($mot_clef);
-  $rqt = "SELECT titre,url,id FROM nouvelle where titre LIKE '%$mot_clef%' or description LIKE '%$mot_clef%'"; // on recherche tous les RSS contenant le mot clé dans le titre
-  $result = $db->db()->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
+  //
+  // $mot_clef = SQLite3::escapeString ($mot_clef);
+  // $rqt = "SELECT titre,url,id FROM nouvelle where titre LIKE '%$mot_clef%' or description LIKE '%$mot_clef%'"; // on recherche tous les RSS contenant le mot clé dans le titre
+  // $result = $db->db()->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
 
 }
 

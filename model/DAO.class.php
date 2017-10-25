@@ -52,6 +52,22 @@ class DAO {
         }
     }
 
+    // retourne les infos de tous les RSS
+    function getInfoRSS():array{
+      $rqt = "SELECT * FROM RSS";
+      $result2 = $this->db->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
+      return $result2;
+    }
+
+    // retourne les infos des nouvelles contenant le mot clef demandé
+    function getInfoNouvelleSFromMotClef($motClef){
+      $motClef = SQLite3::escapeString ($motClef);
+      $rqt = "SELECT titre,url,id FROM nouvelle where titre LIKE '%$motClef%' or description LIKE '%$motClef%'"; // on recherche tous les RSS contenant le mot clé dans le titre
+      $result3 = $this->db->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
+      return $result3;
+    }
+
+
     // Acces à un objet RSS à partir de son URL
     function readRSSfromURL($url) {
         // vérification de la présence du rss de l'url dans la base de données
@@ -71,7 +87,9 @@ class DAO {
     * @return true si utilisateur créé, false si déjà existant
     */
     function createUser($login,$mdp):bool{
-      $rqt = "SELECT login FROM utilisateur WHERE login='$login'" //
+      $login = SQLite3::escapeString ($login);
+      $mdp = SQLite3::escapeString ($mdp);
+      $rqt = "SELECT login FROM utilisateur WHERE login='$login'"; //
       $result = $this->db->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
       if(!$result){
         $rqt = "INSERT INTO utilisateur(login,mp) VALUES ('$login','$mdp')";
@@ -83,7 +101,9 @@ class DAO {
     }
 
     function verifUser($login,$mdp){
-      $rqt = "SELECT * FROM utilisateur WHERE login='$login' and mp='$mdp'" //
+      $login = SQLite3::escapeString ($login);
+      $mdp = SQLite3::escapeString ($mdp);
+      $rqt = "SELECT * FROM utilisateur WHERE login='$login' and mp='$mdp'"; //
       $result = $this->db->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
       if($result){
         return true;
@@ -95,7 +115,8 @@ class DAO {
     function updateRSS(RSS $rss) {
         // Met à jour uniquement le titre et la date
         $titre = $this->db->quote ( $rss->titre () );
-        $q = "UPDATE RSS SET titre=$titre, date='" . $rss->date () . "' WHERE url='" .
+        $date = date('l jS \of F Y h:i:s A');
+        $q = "UPDATE RSS SET titre=$titre, date='$date' WHERE url='" .
                  $rss->url () . "'";
         try {
             $r = $this->db->exec ( $q );
@@ -124,6 +145,24 @@ class DAO {
 
             return ($result [0]);
         }
+    }
+
+    // Vidage du flux
+    function vidageFlux($RSS_id){
+      // On supprime les nouvelles de la BD
+      $rqt = "DELETE FROM nouvelle WHERE RSS_id=$RSS_id";
+      $result = $this->db->exec($rqt);
+
+      // On recréé les nouvelles
+      $rqt = "SELECT url FROM RSS WHERE id=$RSS_id";
+      $result = $this->db->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
+      $rss = $this->readRSSfromURL ( $result[0]['url'] ); // on lit l'url du flux
+    }
+
+    // Renvoi les informations d'une nouvelle en fontion de s
+    function getInfoNouvelleFromRSSID($RSS_id){
+      $rqt = "SELECT id FROM nouvelle WHERE RSS_id = '$RSS_id'";
+      return $this->db->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
     }
 
     // Crée une nouvelle dans la base à partir d'un objet nouvelle

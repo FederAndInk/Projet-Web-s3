@@ -9,13 +9,13 @@
 $error = $_GET['error'] ?? null;
 if (! is_null($error)) {
     echo "<p>";
-    
-    if (error == "createLoginUsed") {
+
+    if ($error == "createLoginUsed") {
         echo "Le nom d'utilisateur est déjà utilisé";
-    } elseif (error == "createMdpSize") {
+    } elseif ($error == "createMdpSize") {
         echo "Le mot de passe n'est pas assez long !";
     }
-    
+
     echo "</p>";
 }
 ?>
