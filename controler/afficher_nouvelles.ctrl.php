@@ -17,21 +17,15 @@ if (isset($_GET['RSS_id'])){
 
   $mot_clef = SQLite3::escapeString ($mot_clef);
   $rqt = "SELECT titre,url,id FROM nouvelle where titre LIKE '%$mot_clef%' or description LIKE '%$mot_clef%'"; // on recherche tous les RSS contenant le mot clé dans le titre
+  $result = $db->db()->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
 
 }
 
-$result = $db->db()->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
-  if(!empty($result)){
-  foreach($result as $key => $value){
-    $titreNouvelles[] = $value['titre']; // TitresNouvelles contient tous les titres des Nouvelles avec le mot clé dans la BD
-    $liensNouvelles[] = $value['url']; // liensNouvelles contient tous les liens des Nouvelles avec le mot clé dans la BD
-    $idNouvelles[] = $value['id'];
-  }
-
-
-  } else {
-  header('Location: http://www-etu-info.iut2.upmf-grenoble.fr/~deslotl/ProgWeb/Projet-Web-s3/controler/afficher_flux.ctrl.php?search=error'); // Si aucun mot clé ne correspond dans la base de donnée on retourne à la page principale
-  }
+foreach($result as $key => $value){
+  $titreNouvelles[] = $value['titre']; // TitresNouvelles contient tous les titres des Nouvelles avec le mot clé dans la BD
+  $liensNouvelles[] = $value['url']; // liensNouvelles contient tous les liens des Nouvelles avec le mot clé dans la BD
+  $idNouvelles[] = $value['id'];
+}
 
 
 

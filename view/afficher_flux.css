@@ -40,7 +40,26 @@ input#search {
     height: 20px;
 }
 
+form {
+  display: inline;
+}
+
 input#search-btn {
     width: 100px;
     height: 100px;
+}
+
+div.Ajouter_Flux {
+  text-align: center;
+    line-height: 100px;
+}
+
+input#nf {
+  width: 400px;
+  height: 20px;
+}
+
+input#nf-btn {
+  width: 100px;
+  height: 100px;
 }

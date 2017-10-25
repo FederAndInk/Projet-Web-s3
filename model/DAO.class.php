@@ -66,6 +66,11 @@ class DAO {
         }
     }
 
+    // Créé un utilisateur dans la base de donée
+    function createUser($login,$mdp){
+
+    }
+
     // Met à jour un flux
     function updateRSS(RSS $rss) {
         // Met à jour uniquement le titre et la date
