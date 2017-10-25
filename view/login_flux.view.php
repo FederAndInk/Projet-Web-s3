@@ -7,7 +7,7 @@
 <body>
 <?php
 $error = $_GET['error'] ?? null;
-if (! is_null(condition)) {
+if (! is_null($error)) {
     echo "<p>";
     
     if (error == "createLoginUsed") {
