@@ -22,6 +22,7 @@
 
   session_start();
   $_SESSION['login'] = $login;
+  session_write_close();
   if(isset($error)){
     header("Location:../view/login_flux.view.php?error=$error");
   } else {

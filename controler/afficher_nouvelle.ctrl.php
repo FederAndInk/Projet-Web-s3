@@ -1,4 +1,10 @@
 <?php
+
+session_start();
+if(!isset($_SESSION['login'])){
+   header('Location:../view/login_flux.view.php');
+ }
+
 require_once('../model/DAO.class.php');
 
 $idNouvelle = $_GET['id_Nouvelle']; // on récupère l'id de la nouvelle en paramètre

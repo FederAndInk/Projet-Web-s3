@@ -1,5 +1,10 @@
 <?php
 
+session_start();
+if(!isset($_SESSION['login'])){
+   header('Location:../view/login_flux.view.php');
+ }
+ 
 require_once('../model/DAO.class.php');
 
 $db = new DAO();

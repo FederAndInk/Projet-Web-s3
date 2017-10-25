@@ -1,4 +1,9 @@
 <?php
+session_start();
+if(!isset($_SESSION['login'])){
+   header('Location:../view/login_flux.view.php');
+ }
+ 
 require_once('../model/DAO.class.php');
   // On va chercher les image dans le dossier images
   $RSS_id = $_GET['RSS_id'];
@@ -14,8 +19,6 @@ require_once('../model/DAO.class.php');
   $db = new DAO();
   $rqt = "SELECT id FROM nouvelle WHERE RSS_id = '$RSS_id'";
   $result = $db->db()->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
-
-
   // On va chercher dans le dossier image le nombre d'images correspondant et On récupère les id  des nouvelles par rapport aux images
   foreach ($images as $key => $img) {
     $img = preg_replace("/.jpg/",'',$img); // on replace le .jpg par une chaine vide
@@ -25,8 +28,6 @@ require_once('../model/DAO.class.php');
       }
     }
 }
-
-  asort($idImages);
-  array_reverse($idImages);
+var_dump($idImages);
   include('../view/afficher_nouvelles_img.view.php');
 ?>

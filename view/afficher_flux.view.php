@@ -8,8 +8,8 @@
 <div class="MenuDiv">
 
   <ul id="Menu">
-    <li><a href="http://www-etu-info.iut2.upmf-grenoble.fr/~deslotl/ProgWeb/Projet-Web-s3/controler/afficher_flux.ctrl.php">Flux</a></li>
-    <li class = "deconnexion"><a href="../">Déconnexion</a></li>
+    <li><a href="../controler/afficher_flux.ctrl.php">Flux</a></li>
+    <li class = "deconnexion"><a href="../controler/afficher_flux.ctrl.php?deconnexion">Déconnexion</a></li>
     <?php ?>
   </ul>
 

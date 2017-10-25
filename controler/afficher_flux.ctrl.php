@@ -1,7 +1,17 @@
   <?php
-  // if(!isset($_SESSION['login'])){
-  //   header('Location:../view/login_flux.view.php');
-  // }
+  session_start();
+  if(!isset($_SESSION['login'])){
+     header('Location:../view/login_flux.view.php');
+   } else {
+     $user = $_SESSION['login'];
+   }
+
+   // Si l'utilisateur se déconnecte
+   if(isset($_GET['deconnexion'])){
+     $_SESSION = array(); // Réinitialisation de session
+     session_write_close(); // on ferme la session
+     header("Refresh:0"); // on rafraichit la page
+   }
   // Définit le fuseau horaire par défaut à utiliser. Disponible depuis PHP 5.1
   date_default_timezone_set('Europe/Paris');
 
@@ -12,6 +22,8 @@
 
   require_once('../model/DAO.class.php');
   require_once('../model/RSS.class.php');
+
+
 
   // Ouverture de la base de donnée
   $dao = new DAO();
@@ -32,7 +44,11 @@
     if (filter_var($new_flux, FILTER_VALIDATE_URL)) { // On vérifie que c'est bien une url
       $rss1 = $dao->readRSSfromURL ( $new_flux ); // on lit l'url du flux
       if ($rss1 == NULL) {
+            echo "zkjnznfzlnclznflzfln";
         $rss1 = $dao->createRSS ( $new_flux ); // on créé le flux
+        $dao->addFluxUtilisateur($rss1->id(),$user); // on ajoute le flux aux abonnements de l'utilisateur
+      } else {
+        $dao->addFluxUtilisateur($rss1->id(),$user);  // on ajoute le flux aux abonnements de l'utilisateur
       }
     }   else {
       $message_erreur_addRSS = "Le flux n'existe pas"; // message d'erreur envoyé à la view si ce n'est pas un lien
@@ -41,9 +57,10 @@
   }
 
 
-  // Envoie des infos concernant les RSS à la vue
-  if(!empty($dao->getInfoRSS())){
-    foreach($dao->getInfoRSS() as $key => $value){
+  // Envoie des infos concernant les RSS de l'utilisateur à la vue
+  var_dump($dao->getInfoRSSUtilisateur($user));
+  if(!empty($dao->getInfoRSSUtilisateur($user))){
+    foreach($dao->getInfoRSSUtilisateur($user) as $key => $value){
       $titresRSS[] = $value['titre']; // TitresRSS contient tous les titres des RSS dans la base de donnée
       $liensRSS[] = $value['url']; // liensRSS contient tous les liens des RSS dans la base de donnée
       $RSS_id[] = $value ['id']; //RSS_id contient tous les id des RSS de la base de donnée
@@ -53,7 +70,10 @@
     $data['urls']=$liensRSS;
     $data ['id']=$RSS_id;
     $data ['date'] = $date_maj;
-
+    var_dump($data['titres']);
+    var_dump($data['urls']);
+    var_dump($data ['id']);
+    var_dump($data ['date']);
     $vide = false; // On signal qu'il y a des RSS à afficher
   } else { // Si il n'y a pas de RSS à afficher le signal
     $vide = true;
@@ -109,7 +129,7 @@
     $rqt = "DELETE FROM RSS WHERE id=$supr_Id";
     $result = $db->exec($rqt);
     // On r
-    header("Location:http://www-etu-info.iut2.upmf-grenoble.fr/~deslotl/ProgWeb/Projet-Web-s3/controler/afficher_flux.ctrl.php");
+    header("Refresh:0");
   }
 
 
