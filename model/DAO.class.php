@@ -66,9 +66,29 @@ class DAO {
         }
     }
 
-    // Créé un utilisateur dans la base de donée
-    function createUser($login,$mdp){
+   /**
+    * Créé un utilisateur dans la base de donée
+    * @return true si utilisateur créé, false si déjà existant
+    */
+    function createUser($login,$mdp):bool{
+      $rqt = "SELECT login FROM utilisateur WHERE login='$login'" //
+      $result = $this->db->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
+      if(!$result){
+        $rqt = "INSERT INTO utilisateur(login,mp) VALUES ('$login','$mdp')";
+        $result = $this->db->exec($rqt);
+        return true;
+      } else{
+      return false;
+    }
+    }
 
+    function verifUser($login,$mdp){
+      $rqt = "SELECT * FROM utilisateur WHERE login='$login' and mp='$mdp'" //
+      $result = $this->db->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
+      if($result){
+        return true;
+      }
+      return false;
     }
 
     // Met à jour un flux
