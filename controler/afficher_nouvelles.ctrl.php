@@ -4,7 +4,7 @@ session_start();
 if(!isset($_SESSION['login'])){
    header('Location:../view/login_flux.view.php');
  }
- 
+
 require_once('../model/DAO.class.php');
 
 $db = new DAO();
@@ -12,9 +12,7 @@ $db = new DAO();
 if (isset($_GET['RSS_id'])){
   $RSS_id = $_GET['RSS_id']; // on récupère l'id du flux RSS en pramètre
   $message = ''; // message vide car aucune recherche
-  $rqt = "SELECT titre,url,id FROM nouvelle WHERE RSS_id = '$RSS_id'";
-  $result = $db->db()->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
-
+  $result = $db->getInfoNouvelleFromRSSID($RSS_id);
 
 } elseif(isset($_GET['mot_clef'])){
   $result = $db->getInfoNouvelleSFromMotClef($_GET['mot_clef']);

@@ -50,6 +50,7 @@
           <form method="post" action="<?php echo "http://www-etu-info.iut2.upmf-grenoble.fr/~deslotl/ProgWeb/Projet-Web-s3/controler/afficher_flux.ctrl.php?supr_Id=".$data['id'][$key] ?>">
             <input type="submit" value="Supprimer flux">
           </form>
+          <hr>
         </p>
         <br/>
 

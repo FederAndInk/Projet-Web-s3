@@ -2,7 +2,6 @@ ul#Menu li {
   display: inline;
   padding: 0 1em;
   line-height: 50px;
-  border-right: 1px solid blue;
   height: auto;
 }
 
@@ -14,6 +13,7 @@ ul{
 
 li a{
   text-decoration: none;
+  color: black;
 }
 
 h1 {

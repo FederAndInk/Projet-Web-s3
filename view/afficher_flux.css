@@ -3,6 +3,7 @@ ul#Menu li {
   padding: 0 1em;
   line-height: 50px;
   height: auto;
+  text-align: center;
 }
 
 li#connexion {
@@ -12,7 +13,7 @@ li#connexion {
 ul{
   background-color: rgb(128,128,128);
   height: 50px;
-  text-align: left;
+  text-align: center;
   margin: 0;
   padding: 0;
 }
@@ -20,6 +21,7 @@ ul{
 li a{
   text-decoration: none;
   width: 70;
+  color: black;
 }
 
 button a {
@@ -28,10 +30,6 @@ button a {
 
 h1 {
   font-family: Comic Sans MS;
-}
-
-p{
-  border: 2px black dashed;
 }
 
 div.Recherche {

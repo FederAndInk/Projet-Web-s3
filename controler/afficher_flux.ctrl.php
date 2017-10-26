@@ -44,7 +44,6 @@
     if (filter_var($new_flux, FILTER_VALIDATE_URL)) { // On vérifie que c'est bien une url
       $rss1 = $dao->readRSSfromURL ( $new_flux ); // on lit l'url du flux
       if ($rss1 == NULL) {
-            echo "zkjnznfzlnclznflzfln";
         $rss1 = $dao->createRSS ( $new_flux ); // on créé le flux
         $dao->addFluxUtilisateur($rss1->id(),$user); // on ajoute le flux aux abonnements de l'utilisateur
       } else {
@@ -57,7 +56,6 @@
   }
 
   // Envoie des infos concernant les RSS de l'utilisateur à la vue
-  var_dump($dao->getInfoRSSUtilisateur($user));
   if(!empty($dao->getInfoRSSUtilisateur($user))){
     foreach($dao->getInfoRSSUtilisateur($user) as $key => $value){
       $RSS_id[] = $value ['id']; //RSS_id contient tous les id des RSS de la base de donnée
@@ -69,7 +67,6 @@
     $data['urls']=$liensRSS;
     $data ['id']=$RSS_id;
     $data ['date'] = $date_maj;
-    var_dump($data);
     $vide = false; // On signal qu'il y a des RSS à afficher
   } else { // Si il n'y a pas de RSS à afficher le signal
     $vide = true;
@@ -102,30 +99,16 @@
 
     // On vidange le flux dans la base de donnée
     $dao->vidageFlux($_GET['vid_Id']);
-  }
 
+  }
   // On supprime le rss de l'id passé en paramètre
   if(isset($_GET['supr_Id'])){
-    $supr_Id = $_GET['supr_Id'];
-    $images = scandir('../model/images'); // On va chercher les images dans le dossier image
-
-    $rqt = "SELECT id FROM nouvelle WHERE RSS_id = '$supr_Id'";
-    $result = $db->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
-
-    // On va chercher dans le dossier image le nombre d'images correspondant et On récupère les id  des nouvelles par rapport aux images
-    foreach ($images as $key => $img) {
-      foreach ($result as $key => $value) {
-        if($img == $value['id'].".jpg"){
-          unlink("../model/images/$img"); // On supprime l'image si elle fait partie du RSS
-        }
-      }
-    }
-    $rqt = "DELETE FROM nouvelle WHERE RSS_id=$supr_Id";
-    $result = $db->exec($rqt);
-    $rqt = "DELETE FROM RSS WHERE id=$supr_Id";
-    $result = $db->exec($rqt);
-    // On r
-    header("Refresh:0");
+    // on supprime le RSS de l'abonnement de l'utilisateur, et on le supprimme de la base s'y perssone n'y est abonné
+    echo "szmjcsmlcksmlkcmlsdkcmldskmckdsmkcdskcmdsklcmk";
+    $test = $dao->deleteRSSUtilisateur($user,$_GET['supr_Id']);
+    var_dump($test);
+    // On rafraichit la page
+    header("Location:afficher_flux.ctrl.php");
   }
 
 
