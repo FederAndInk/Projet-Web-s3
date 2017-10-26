@@ -56,24 +56,20 @@
 
   }
 
-
   // Envoie des infos concernant les RSS de l'utilisateur à la vue
   var_dump($dao->getInfoRSSUtilisateur($user));
   if(!empty($dao->getInfoRSSUtilisateur($user))){
     foreach($dao->getInfoRSSUtilisateur($user) as $key => $value){
+      $RSS_id[] = $value ['id']; //RSS_id contient tous les id des RSS de la base de donnée
       $titresRSS[] = $value['titre']; // TitresRSS contient tous les titres des RSS dans la base de donnée
       $liensRSS[] = $value['url']; // liensRSS contient tous les liens des RSS dans la base de donnée
-      $RSS_id[] = $value ['id']; //RSS_id contient tous les id des RSS de la base de donnée
       $date_maj[] = $value ['date'];   //date_maj contient toute les dates des RSS de la BD
     }
     $data['titres']=$titresRSS;
     $data['urls']=$liensRSS;
     $data ['id']=$RSS_id;
     $data ['date'] = $date_maj;
-    var_dump($data['titres']);
-    var_dump($data['urls']);
-    var_dump($data ['id']);
-    var_dump($data ['date']);
+    var_dump($data);
     $vide = false; // On signal qu'il y a des RSS à afficher
   } else { // Si il n'y a pas de RSS à afficher le signal
     $vide = true;

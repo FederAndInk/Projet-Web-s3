@@ -54,17 +54,28 @@ class DAO {
 
     // retourne les infos de tous les RSS
     function getInfoRSSUtilisateur(string $utilisateur):array{
+      $result3 = array();
       $utilisateur = SQLite3::escapeString ($utilisateur);
       $rqt = "SELECT RSS_id FROM abonnement WHERE utilisateur_login='$utilisateur'";
-      $result2 = $this->db->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
-      $result3 = array();
-      foreach ($result2 as $key => $value) {
-        $res = $result2[$key]['RSS_id'];
-        $rqt = "SELECT * FROM RSS WHERE id='$res'";
-        $result3[] = $this->db->query ( $rqt )->fetchAll ( PDO::FETCH_ASSOC );
+      $result2 = $this->db->query ( $rqt )->fetchAll ( PDO::FETCH_BOTH );
+      if (!empty($result2)){
+        foreach ($result2 as $key => $value) {
+          $res[]=$value['RSS_id'];
+        }
+      foreach ($res as $key => $value) {
+        $rqt = "SELECT * FROM RSS WHERE id=$value";
+        $result3[] = $this->db->query ( $rqt )->fetchAll ( PDO::FETCH_BOTH );
       }
-      var_dump($result3[0]);
-      return $result3[0];
+      foreach ($result3 as $key => $val) {
+          if(!empty($val)){
+            $res1[] = $val;
+          }
+        }
+        return $val;
+      }
+
+
+      return $result3;
     }
 
     // retourne les infos des nouvelles contenant le mot clef demandé
@@ -202,7 +213,6 @@ class DAO {
     function addFluxUtilisateur(int $RSS_id, string $utilisateur){
       $utilisateur = SQLite3::escapeString ( $utilisateur );
       $rqt = "INSERT INTO abonnement (utilisateur_login,RSS_id,nom) VALUES ('$utilisateur',$RSS_id,'abonnement')";
-      var_dump($rqt);
       echo "qlshkdqkljdqkljdlqdljqsdljqsdljqdlsjlqjldqjldj";
       $result = $this->db->exec ( $rqt );
     }
