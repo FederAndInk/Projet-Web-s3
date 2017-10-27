@@ -6,53 +6,52 @@ require_once ('DAO.class.php');
 
 // Test de la classe DAO
 
-$dao = new DAO ();
+$dao = new DAO();
 
 // Test si l'URL existe dans la BD
 $url = 'http://www.lemonde.fr/m-actu/rss_full.xml';
 
-$rss = $dao->readRSSfromURL ( $url );
+$rss = $dao->readRSSfromURL($url);
 
 if ($rss == NULL) {
-
-    echo $url . " n'est pas connu\n";
-    echo "On l'ajoute ... \n";
-    $rss = $dao->createRSS ( $url );
+  
+  echo $url . " n'est pas connu\n";
+  echo "On l'ajoute ... \n";
+  $rss = $dao->createRSS($url);
 }
 
 $url = 'https://www.nasa.gov/rss/dyn/breaking_news.rss';
 
-$rss = $dao->readRSSfromURL ( $url );
+$rss = $dao->readRSSfromURL($url);
 
 if ($rss == NULL) {
-
-    echo $url . " n'est pas connu\n";
-    echo "On l'ajoute ... \n";
-    $rss = $dao->createRSS ( $url );
+  
+  echo $url . " n'est pas connu\n";
+  echo "On l'ajoute ... \n";
+  $rss = $dao->createRSS($url);
 }
 
 $url = 'http://www.france24.com/fr/actualites/rss';
 
-$rss = $dao->readRSSfromURL ( $url );
+$rss = $dao->readRSSfromURL($url);
 
 if ($rss == NULL) {
-
-    echo $url . " n'est pas connu\n";
-    echo "On l'ajoute ... \n";
-    $rss = $dao->createRSS ( $url );
+  
+  echo $url . " n'est pas connu\n";
+  echo "On l'ajoute ... \n";
+  $rss = $dao->createRSS($url);
 }
 
 $url = 'http://www.france24.com/fr/tag/sante/rss';
 
-$rss = $dao->readRSSfromURL ( $url );
+$rss = $dao->readRSSfromURL($url);
 
 if ($rss == NULL) {
-
-    echo $url . " n'est pas connu\n";
-    echo "On l'ajoute ... \n";
-    $rss = $dao->createRSS ( $url );
+  
+  echo $url . " n'est pas connu\n";
+  echo "On l'ajoute ... \n";
+  $rss = $dao->createRSS($url);
 }
-
 
 /*
  * // Une instance de RSS
@@ -71,10 +70,10 @@ if ($rss == NULL) {
  */
 
 // Mise à jour du flux
-$rss = $dao->createRSS ( $url );
-$rss->update ();
-$titre = $rss->titre ();
-$nouvelle = $rss->nouvelles () {0};
-$nouvelle = $dao->createNouvelle ( $nouvelle, $rss->id () );
+$rss = $dao->createRSS($url);
+$rss->update();
+$titre = $rss->titre();
+$nouvelle = $rss->nouvelles(){0};
+$nouvelle = $dao->createNouvelle($nouvelle, $rss->id());
 
 ?>

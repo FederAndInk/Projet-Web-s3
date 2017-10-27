@@ -1,67 +1,67 @@
 ul#Menu li {
-  display: inline;
-  padding: 0 1em;
-  line-height: 50px;
-  height: auto;
-  text-align: center;
+	display: inline;
+	padding: 0 1em;
+	line-height: 50px;
+	height: auto;
+	text-align: center;
 }
 
 li#connexion {
-  text-align: right;
+	text-align: right;
 }
 
-ul{
-  background-color: rgb(128,128,128);
-  height: 50px;
-  text-align: center;
-  margin: 0;
-  padding: 0;
+ul {
+	background-color: rgb(128, 128, 128);
+	height: 50px;
+	text-align: center;
+	margin: 0;
+	padding: 0;
 }
 
-li a{
-  text-decoration: none;
-  width: 70;
-  color: black;
+li a {
+	text-decoration: none;
+	width: 70;
+	color: black;
 }
 
 button a {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 h1 {
-  font-family: Comic Sans MS;
+	font-family: Comic Sans MS;
 }
 
 div.Recherche {
-  text-align: center;
-    line-height: 100px;
+	text-align: center;
+	line-height: 100px;
 }
 
 input#search {
-    width: 400px;
-    height: 20px;
+	width: 400px;
+	height: 20px;
 }
 
 form {
-  display: inline;
+	display: inline;
 }
 
 input#search-btn {
-    width: 100px;
-    height: 100px;
+	width: 100px;
+	height: 100px;
 }
 
 div.Ajouter_Flux {
-  text-align: center;
-    line-height: 100px;
+	text-align: center;
+	line-height: 100px;
 }
 
 input#nf {
-  width: 400px;
-  height: 20px;
+	width: 400px;
+	height: 20px;
 }
 
 input#nf-btn {
-  width: 100px;
-  height: 100px;
+	width: 100px;
+	height: 100px;
 }
