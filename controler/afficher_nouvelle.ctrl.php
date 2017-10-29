@@ -1,4 +1,5 @@
 <?php
+// controle d'utilisateur
 session_start();
 if (! isset($_SESSION['login'])) {
   header('Location:../view/login_flux.view.php');
@@ -8,10 +9,11 @@ require_once ('../model/DAO.class.php');
 
 $idNouvelle = $_GET['id_Nouvelle']; // on récupère l'id de la nouvelle en
                                     // paramètre
-                                    // On va chercher la nouvelle correspondant
-                                    // dans la base de donnée
+
+// On va chercher la nouvelle correspondant dans la base de donnée
 $db = new DAO();
 $result = $db->getInfoNouvelleFromId($idNouvelle);
+
 // on récupère toutes les informations de la nouvelle
 foreach ($result as $key => $value) {
   $dateNouvelle = $value['date'];
@@ -20,6 +22,7 @@ foreach ($result as $key => $value) {
   $urlNouvelle = $value['url'];
   $RSS_idNouvelle = $value['RSS_id'];
 }
+
 // On va chercher l'image de la nouvelle dans le répertoire
 $imagesNouvelles = scandir('../model/images');
 foreach ($imagesNouvelles as $key => $img) {
