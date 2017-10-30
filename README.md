@@ -1,5 +1,5 @@
 # Site Web de veille d'information personnalisé
-[Lien vers la Release]()\
+[Lien vers la Release](https://github.com/FederAndInk/Projet-Web-s3/releases/tag/1.0)\
 [Lien du site exemple](http://www-etu-info.iut2.upmf-grenoble.fr/~deslotl/ProgWeb/Projet-Web-s3/)
 ## Installation
 1. Extraire le contenu du dossier Projet-Web-s3 de l'archive dans le dossier de votre site web (là où vous voulez l'installer)
