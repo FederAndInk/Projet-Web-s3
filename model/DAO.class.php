@@ -220,9 +220,9 @@ class DAO
   }
 
   // retourne les infos des nouvelles contenant le mot clef demandé
-  function getInfoNouvelleSFromMotClef($motClef){
+  function getInfoNouvelleSFromMotClef(string $motClef, string $user){
     $motClef = SQLite3::escapeString($motClef);
-    $rqt = "SELECT titre,url,id FROM nouvelle where titre LIKE '%$motClef%' or description LIKE '%$motClef%'";
+    $rqt = "SELECT n.titre, n.url, n.id, n.date FROM nouvelle n,abonnement a where (utilisateur_login='$user' and a.RSS_id=n.RSS_id) and (n.titre LIKE '%$motClef%' or n.description LIKE '%$motClef%')";
     $result3 = $this->db->query($rqt)->fetchAll(PDO::FETCH_ASSOC);
     return $result3;
   }

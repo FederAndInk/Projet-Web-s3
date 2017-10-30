@@ -23,7 +23,8 @@
 		href="<?php echo '../controler/afficher_nouvelle.ctrl.php?id_Nouvelle='.$data['id'][$key] ?> ">
           <?php echo "$value" ?>
         </a>
-	<br>
+	<br> <?php echo $data['dates'][$key] ?>
+	<hr>
 <?php } ?>
   </body>
 </html>

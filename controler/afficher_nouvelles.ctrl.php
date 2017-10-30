@@ -15,7 +15,7 @@ if (isset($_GET['RSS_id'])) {
   $message = ''; // message vide car aucune recherche
   $result = $db->getInfoNouvelleFromRSSID($RSS_id);
 } elseif (isset($_GET['mot_clef'])) { // Sinon on récupère le mot clef passé en paramètre
-  $result = $db->getInfoNouvelleSFromMotClef($_GET['mot_clef']);
+  $result = $db->getInfoNouvelleSFromMotClef($_GET['mot_clef'], $_SESSION['login']);
   $motClef = $_GET['mot_clef'];
   if ($result == null) {
     header("Location:afficher_flux.ctrl.php?motClefErreur=erreur");
@@ -27,12 +27,14 @@ foreach ($result as $key => $value) {
   $titreNouvelles[] = $value['titre']; // TitresNouvelles contient tous les titres des Nouvelles avec le mot clé dans la BD
   $liensNouvelles[] = $value['url']; // liensNouvelles contient tous les liens des Nouvelles avec le mot clé dans la BD
   $idNouvelles[] = $value['id'];
+  $dateNouvelles[] = $value['date'];
 }
 
 // envoi des informations à la vue
 $data['titres'] = $titreNouvelles;
 $data['urls'] = $liensNouvelles;
 $data['id'] = $idNouvelles;
+$data['dates'] = $dateNouvelles;
 
 include ('../view/afficher_nouvelles.view.php');
 
