@@ -19,9 +19,9 @@ chmod go+rwx model/images
 ```bash
 rm model/images/*
 cd model/data/
-sqlight3 rss.db
+sqlite3 rss.db
 ```
-```sqlight
+```sqlite
 .read create.sql
 .exit
 ```
